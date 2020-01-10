@@ -1,13 +1,13 @@
-//2019.12.19
+//2
 package a_begin;
 
 public class BooleanExample {
  public static void main(String[] args) {
 	 boolean stop = false;
 	 if(stop) {
-		 System.out.println("중지합니다.");
+		 System.out.println("以�吏��⑸����.");
 	 } else {
-		 System.out.println("시작합니다.");
+		 System.out.println("�����⑸����.");
 	 }
    }
  }

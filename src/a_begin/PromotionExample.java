@@ -1,3 +1,4 @@
+// 1
 package a_begin;
 
 public class PromotionExample {

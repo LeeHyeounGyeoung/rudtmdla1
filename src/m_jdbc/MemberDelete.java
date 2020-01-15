@@ -124,8 +124,18 @@ public class MemberDelete extends JInternalFrame {
 	private JComboBox getComboBox() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"1\uD559\uB144", "2\uD559\uB144", "3\uD559\uB144", "4\uD559\uB144", "5\uD559\uB144", "6\uD559\uB144", "7\uD559\uB144", "8\uD559\uB144", "9\uD559\uB144", "10\uD559\uB144"}));
 			comboBox.setBounds(81, 184, 116, 21);
+			
+			comboBox.addItem("1학년");
+			comboBox.addItem("2학년");
+			comboBox.addItem("3학년");
+			comboBox.addItem("4학년");
+			comboBox.addItem("5학년");
+			comboBox.addItem("6학년");
+			comboBox.addItem("7학년");
+			comboBox.addItem("8학년");
+			comboBox.addItem("9학년");
+			comboBox.addItem("10학년");
 		}
 		return comboBox;
 	}

@@ -13,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class MemberUpdate extends JInternalFrame {
@@ -145,7 +146,6 @@ public class MemberUpdate extends JInternalFrame {
 	private JComboBox getTgrade() {
 		if (tgrade == null) {
 			tgrade = new JComboBox();
-			tgrade.setModel(new DefaultComboBoxModel(new String[] {""}));
 			tgrade.setBounds(81, 152, 85, 21);
 			
 			tgrade.addItem("1ÇÐ³â");
@@ -173,7 +173,7 @@ public class MemberUpdate extends JInternalFrame {
 					
 					tmName.setText(vo.getmName());
 					trDate.setText(sdf.format(vo.getrDate()));
-					tgrade.setSelectedIndex(vo.getGrade());
+					tgrade.setSelectedIndex(vo.getGrade()-1);
 				}
 			});
 			btnNewButton.setBackground(SystemColor.inactiveCaption);
@@ -184,6 +184,25 @@ public class MemberUpdate extends JInternalFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC218\uC815");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					String mId = tmId.getText();
+					String nn = tmName.getText();
+					Date nd = sdf.parse(trDate.getText());
+					int g = tgrade.getSelectedIndex()+1;
+				
+					MemberVo vo = new MemberVo(mId, nn, nd, g);
+					MemberDao dao = new MemberDao();
+					dao.update(vo);
+					}catch(Exception ex) {
+						
+					}
+					
+					
+				}
+			});
 			btnNewButton_1.setBackground(SystemColor.inactiveCaption);
 			btnNewButton_1.setBounds(68, 193, 97, 33);
 		}

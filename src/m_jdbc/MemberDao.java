@@ -12,10 +12,58 @@ import javax.naming.spi.DirStateFactory.Result;
 
 public class MemberDao {
 	Connection conn;
-	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 public MemberDao() {
 	conn = DBconn.getConn();
 }
+
+public int insert(MemberVo vo) {
+	int r = 0;
+	try {
+		String sql = "insert into mMember values(?,?,?,?) ";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, vo.getmId());
+		ps.setString(2, vo.getmName());
+		ps.setString(3, sdf.format(vo.getrDate()));
+		ps.setInt(4, vo.getGrade());
+		conn.setAutoCommit(false);
+		r = ps.executeUpdate();
+		if(r>0) {
+			conn.commit();
+		} else {
+			conn.rollback();
+		}
+		ps.close();
+		conn.close();
+	}catch(Exception ex) {
+		ex.printStackTrace();
+	}finally {
+		return r;
+	}
+}
+
+public int delete(String mId) {
+	int r = 0;
+	try {
+		String sql = "delete from mMember where mId=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1, mId);
+		conn.setAutoCommit(false);
+		r = ps.executeUpdate();
+		if(r>0) {
+			conn.commit();
+		} else {
+			conn.rollback();
+		}
+		ps.close();
+		conn.close();
+	}catch(Exception ex) {
+		
+	}finally {
+		return r;
+	}
+}
+
 
 public MemberVo search(String mId) {
 	MemberVo vo = new MemberVo();
@@ -44,7 +92,6 @@ public MemberVo search(String mId) {
 
 public int update(MemberVo vo) {
 	int r=0;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	try {
 		String sql = "update mMember set mName=?, rDate=?, grade=? "
 						+ " where mId=? ";

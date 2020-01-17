@@ -1,5 +1,6 @@
 package m_jdbc;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
@@ -171,6 +172,9 @@ public class MemberUpdate extends JInternalFrame {
 					MemberVo vo = dao.search(mId);
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					
+					status.setBackground(Color.BLUE);	
+					status.setText("학생 정보가 검색되었습니다.");
+					
 					tmName.setText(vo.getmName());
 					trDate.setText(sdf.format(vo.getrDate()));
 					tgrade.setSelectedIndex(vo.getGrade()-1);
@@ -186,20 +190,29 @@ public class MemberUpdate extends JInternalFrame {
 			btnNewButton_1 = new JButton("\uC218\uC815");
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					String mId = tmId.getText();
-					String nn = tmName.getText();
-					Date nd = sdf.parse(trDate.getText());
-					int g = tgrade.getSelectedIndex()+1;
-				
-					MemberVo vo = new MemberVo(mId, nn, nd, g);
 					MemberDao dao = new MemberDao();
-					dao.update(vo);
-					}catch(Exception ex) {
-						
-					}
+					 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					 MemberVo vo = new MemberVo();
+					 Date d;
+					 try{
+					 d = sdf.parse(trDate.getText());
+					 
+					 vo.setmId(tmId.getText());
+					 vo.setmName(tmName.getText());
+					 vo.setrDate(d);
+					 vo.setGrade(tgrade.getSelectedIndex()+1);
+			
+					int cnt = dao.update(vo);
 					
+					if(cnt>0) {
+						status.setText("정상적으로 수정됨.");
+					}else {	
+						status.setText("수정 중 오류가 발생되었습니다.");				
+					}
+						
+					}catch(Exception ex) {
+						ex.printStackTrace();
+					}
 					
 				}
 			});
@@ -211,6 +224,7 @@ public class MemberUpdate extends JInternalFrame {
 	private JLabel getStatus() {
 		if (status == null) {
 			status = new JLabel("\uC218\uC815\uD560 \uC544\uC774\uB514\uB97C \uAC80\uC0C9\uD558\uC138\uC694");
+			status.setForeground(Color.WHITE);
 			status.setOpaque(true);
 			status.setBackground(SystemColor.inactiveCaption);
 			status.setHorizontalAlignment(SwingConstants.CENTER);

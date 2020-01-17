@@ -1,0 +1,55 @@
+{
+	"folders": {},
+	"connections": {
+		"oracle_thin-16fb16666f1-2590324697f27fca": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "Oracle - xe",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "1521",
+				"database": "xe",
+				"url": "jdbc:oracle:thin:@//localhost:1521/xe",
+				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-always-use-dba-views@": "false",
+					"@dbeaver-sid-service@": "SERVICE",
+					"@dbeaver-meta-use-simple-constraints@": "false",
+					"@dbeaver-use-rule-hint@": "false",
+					"@dbeaver-use-meta-optimizer@": "false",
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-check-schema-content@": "false",
+					"@dbeaver-meta-use-sys-schema@": "false",
+					"@dbeaver-always-show-dba@": "false"
+				},
+				"handlers": {}
+			}
+		}
+	},
+	"virtual-models": {
+		"oracle_thin-16fb16666f1-2590324697f27fca": {
+			"HR": {
+				":EMPLOYEES": {
+					"properties": {
+						"erd.diagram.state": {
+							"serialized": "<diagram version=\"1\" name=\"EMPLOYEES\" time=\"202001171559\"><entities><data-source id=\"oracle_thin-16fb16666f1-2590324697f27fca\"><entity id=\"1\" name=\"EMPLOYEES\" fq-name=\"HR.EMPLOYEES\" order=\"0\" color-bg=\"128,64,32\" x=\"672\" y=\"34\"><path name=\"HR\"/></entity><entity id=\"2\" name=\"DEPARTMENTS\" fq-name=\"HR.DEPARTMENTS\" order=\"1\" x=\"186\" y=\"86\"><path name=\"HR\"/></entity><entity id=\"3\" name=\"JOBS\" fq-name=\"HR.JOBS\" order=\"2\" x=\"432\" y=\"445\"><path name=\"HR\"/></entity><entity id=\"4\" name=\"JOB_HISTORY\" fq-name=\"HR.JOB_HISTORY\" order=\"3\" x=\"30\" y=\"269\"><path name=\"HR\"/></entity></data-source></entities><relations><relation name=\"EMP_MANAGER_FK\" fq-name=\"HR.EMPLOYEES.EMP_MANAGER_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"1\"><bend type=\"rel\" x=\"842\" y=\"278\"/><bend type=\"rel\" x=\"740\" y=\"339\"/></relation><relation name=\"DEPT_MGR_FK\" fq-name=\"HR.DEPARTMENTS.DEPT_MGR_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"2\"/><relation name=\"JHIST_EMP_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_EMP_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"4\"/><relation name=\"EMP_DEPT_FK\" fq-name=\"HR.EMPLOYEES.EMP_DEPT_FK\" type=\"fk\" pk-ref=\"2\" fk-ref=\"1\"/><relation name=\"JHIST_DEPT_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_DEPT_FK\" type=\"fk\" pk-ref=\"2\" fk-ref=\"4\"/><relation name=\"EMP_JOB_FK\" fq-name=\"HR.EMPLOYEES.EMP_JOB_FK\" type=\"fk\" pk-ref=\"3\" fk-ref=\"1\"/><relation name=\"JHIST_JOB_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_JOB_FK\" type=\"fk\" pk-ref=\"3\" fk-ref=\"4\"><bend type=\"abs\" x=\"186\" y=\"285\"/><bend type=\"abs\" x=\"374\" y=\"285\"/></relation></relations></diagram>"
+						}
+					}
+				}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false
+		}
+	}
+}

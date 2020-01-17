@@ -10,18 +10,21 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
 
 public class MemberDelete extends JInternalFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
-	private JTextField textField;
+	private JTextField tmId;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private JSeparator separator;
-	private JComboBox comboBox;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JComboBox tgrade;
+	private JTextField tmName;
+	private JTextField trDate;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JLabel status;
@@ -53,14 +56,14 @@ public class MemberDelete extends JInternalFrame {
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getLblNewLabel_1());
-		getContentPane().add(getTextField());
+		getContentPane().add(getTmId());
 		getContentPane().add(getLblNewLabel_2());
 		getContentPane().add(getLblNewLabel_3());
 		getContentPane().add(getLblNewLabel_4());
 		getContentPane().add(getSeparator());
-		getContentPane().add(getComboBox());
-		getContentPane().add(getTextField_1());
-		getContentPane().add(getTextField_2());
+		getContentPane().add(getTgrade());
+		getContentPane().add(getTmName());
+		getContentPane().add(getTrDate());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getStatus());
@@ -83,13 +86,13 @@ public class MemberDelete extends JInternalFrame {
 		}
 		return lblNewLabel_1;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(81, 79, 116, 21);
-			textField.setColumns(10);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setBounds(81, 79, 116, 21);
+			tmId.setColumns(10);
 		}
-		return textField;
+		return tmId;
 	}
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
@@ -121,43 +124,57 @@ public class MemberDelete extends JInternalFrame {
 		}
 		return separator;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setBounds(81, 184, 116, 21);
+	private JComboBox getTgrade() {
+		if (tgrade == null) {
+			tgrade = new JComboBox();
+			tgrade.setBounds(81, 184, 116, 21);
 			
-			comboBox.addItem("1학년");
-			comboBox.addItem("2학년");
-			comboBox.addItem("3학년");
-			comboBox.addItem("4학년");
-			comboBox.addItem("5학년");
-			comboBox.addItem("6학년");
-			comboBox.addItem("7학년");
-			comboBox.addItem("8학년");
-			comboBox.addItem("9학년");
-			comboBox.addItem("10학년");
+			tgrade.addItem("1학년");
+			tgrade.addItem("2학년");
+			tgrade.addItem("3학년");
+			tgrade.addItem("4학년");
+			tgrade.addItem("5학년");
+			tgrade.addItem("6학년");
+			tgrade.addItem("7학년");
+			tgrade.addItem("8학년");
+			tgrade.addItem("9학년");
+			tgrade.addItem("10학년");
 		}
-		return comboBox;
+		return tgrade;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(81, 130, 116, 21);
-			textField_1.setColumns(10);
+	private JTextField getTmName() {
+		if (tmName == null) {
+			tmName = new JTextField();
+			tmName.setBounds(81, 130, 116, 21);
+			tmName.setColumns(10);
 		}
-		return textField_1;
+		return tmName;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(81, 155, 116, 21);
-			textField_2.setColumns(10);
+	private JTextField getTrDate() {
+		if (trDate == null) {
+			trDate = new JTextField();
+			trDate.setBounds(81, 155, 116, 21);
+			trDate.setColumns(10);
 		}
-		return textField_2;
+		return trDate;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uAC80\uC0C9");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					MemberDao dao = new MemberDao();
+					String mId = tmId.getText();
+					MemberVo vo = dao.search(mId);
+					
+					tmId.setText(vo.getmId());
+					tmName.setText(vo.getmName());
+					trDate.setText(sdf.format(vo.getrDate()));
+					tgrade.setSelectedIndex(vo.getGrade()-1);
+					
+				}
+			});
 			btnNewButton.setBackground(SystemColor.inactiveCaption);
 			btnNewButton.setBounds(209, 78, 68, 23);
 		}
@@ -166,6 +183,24 @@ public class MemberDelete extends JInternalFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC0AD\uC81C");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String mId = tmId.getText();
+					MemberDao dao = new MemberDao();
+					int cnt = dao.delete(mId);
+					
+					if(cnt>0) {
+						status.setText("정보가 삭제되었습니다.");
+					} else {
+						status.setText("삭제중 오류가 발생되었습니다.");
+					}
+					tmName.setText("");
+					trDate.setText("");
+					tgrade.setSelectedIndex(0);
+					tmId.requestFocus();
+					tmId.selectAll();
+				}
+			});
 			btnNewButton_1.setBackground(SystemColor.inactiveCaption);
 			btnNewButton_1.setBounds(79, 215, 80, 23);
 		}

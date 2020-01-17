@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MemberInsert extends JInternalFrame {
 	private JLabel lblNewLabel;
@@ -20,10 +22,10 @@ public class MemberInsert extends JInternalFrame {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JComboBox comboBox;
+	private JTextField tmId;
+	private JTextField tmName;
+	private JTextField trDate;
+	private JComboBox tgrade;
 	private JLabel status;
 	private JButton btnNewButton;
 
@@ -57,10 +59,10 @@ public class MemberInsert extends JInternalFrame {
 		getContentPane().add(getLblNewLabel_2());
 		getContentPane().add(getLblNewLabel_3());
 		getContentPane().add(getLblNewLabel_4());
-		getContentPane().add(getTextField());
-		getContentPane().add(getTextField_1());
-		getContentPane().add(getTextField_2());
-		getContentPane().add(getComboBox());
+		getContentPane().add(getTmId());
+		getContentPane().add(getTmName());
+		getContentPane().add(getTrDate());
+		getContentPane().add(getTgrade());
 		getContentPane().add(getStatus());
 		getContentPane().add(getBtnNewButton());
 
@@ -103,53 +105,53 @@ public class MemberInsert extends JInternalFrame {
 		}
 		return lblNewLabel_4;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(81, 101, 116, 21);
-			textField.setColumns(10);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setBounds(81, 101, 116, 21);
+			tmId.setColumns(10);
 		}
-		return textField;
+		return tmId;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(81, 132, 116, 21);
-			textField_1.setColumns(10);
+	private JTextField getTmName() {
+		if (tmName == null) {
+			tmName = new JTextField();
+			tmName.setBounds(81, 132, 116, 21);
+			tmName.setColumns(10);
 		}
-		return textField_1;
+		return tmName;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(81, 175, 116, 21);
-			textField_2.setColumns(10);
+	private JTextField getTrDate() {
+		if (trDate == null) {
+			trDate = new JTextField();
+			trDate.setBounds(81, 175, 116, 21);
+			trDate.setColumns(10);
 			
 			Date nal = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String n = sdf.format(nal);
-			textField_2.setText(n);
+			trDate.setText(n);
 			
 		}
-		return textField_2;
+		return trDate;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setBounds(81, 225, 116, 21);
+	private JComboBox getTgrade() {
+		if (tgrade == null) {
+			tgrade = new JComboBox();
+			tgrade.setBounds(81, 225, 116, 21);
 			
-			comboBox.addItem("1학년");
-			comboBox.addItem("2학년");
-			comboBox.addItem("3학년");
-			comboBox.addItem("4학년");
-			comboBox.addItem("5학년");
-			comboBox.addItem("6학년");
-			comboBox.addItem("7학년");
-			comboBox.addItem("8학년");
-			comboBox.addItem("9학년");
-			comboBox.addItem("10학년");
+			tgrade.addItem("1학년");
+			tgrade.addItem("2학년");
+			tgrade.addItem("3학년");
+			tgrade.addItem("4학년");
+			tgrade.addItem("5학년");
+			tgrade.addItem("6학년");
+			tgrade.addItem("7학년");
+			tgrade.addItem("8학년");
+			tgrade.addItem("9학년");
+			tgrade.addItem("10학년");
 		}
-		return comboBox;
+		return tgrade;
 	}
 	private JLabel getStatus() {
 		if (status == null) {
@@ -163,7 +165,30 @@ public class MemberInsert extends JInternalFrame {
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uC785\uB825");
+			btnNewButton = new JButton("\uC800\uC7A5");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					MemberDao dao = new MemberDao();
+					MemberVo vo = new MemberVo();
+					try {
+					vo.setmId(tmId.getText());
+					vo.setmName(tmName.getText());
+					vo.setrDate(sdf.parse(trDate.getText()));
+					vo.setGrade(tgrade.getSelectedIndex()+1);
+					
+					int cnt = dao.insert(vo);
+					if(cnt>0) {
+						status.setText("자료가 입력되었습니다.");
+					} else {
+						status.setText("입력중 오류가 발생되었습니다.");
+					}
+					
+					}catch(Exception ex) {
+						
+					}
+				}
+			});
 			btnNewButton.setBackground(SystemColor.inactiveCaption);
 			btnNewButton.setBounds(87, 266, 97, 23);
 		}
